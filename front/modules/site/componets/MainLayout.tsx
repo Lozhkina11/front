@@ -14,7 +14,7 @@ const MainLayout: React.FC<Props> = ({ children }) => {
     <Layout className="min-h-screen">
       {/* Хэдер */}
       <Header className="bg-blue-500 text-white flex items-center justify-between px-6">
-        <div className="text-xl font-bold">Мое Приложение</div>
+        <div className="text-xl font-bold">PhotoShare</div>
         <Menu
           theme="dark"
           mode="horizontal"
