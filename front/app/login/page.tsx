@@ -10,9 +10,11 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-400 via-sky-300 to-indigo-500 p-6">
-      <div className="bg-yellow-300 shadow-lg rounded-lg p-8 max-w-md w-full">
+      <div className="bg-sky-100 shadow-lg rounded-lg p-8 max-w-md w-full">
+      {/* <div className="bg-[#7DD3FC] shadow-lg rounded-lg p-8 max-w-md w-full"> */}
         <h2 className="text-2xl font-bold text-center mb-6">
-          <Tabs defaultActiveKey="1">
+          <Tabs defaultActiveKey="1"  tabBarStyle={{
+    color: "black"}}>
             {/* Вкладка "Вход" */}
             <TabPane tab="Вход" key="1">
               <Form
@@ -48,7 +50,7 @@ const LoginPage: React.FC = () => {
                   htmlType="submit"
                   className="w-full"
                   loading={false}
-                  style={{ background: "black" }}
+                  style={{ background: "#1880DF" }}
                 >
                   Войти
                 </Button>
@@ -109,6 +111,7 @@ const LoginPage: React.FC = () => {
                   htmlType="submit"
                   className="w-full"
                   loading={false}
+                  style={{ background: "#1880DF" }}
                 >
                   Зарегистрироваться
                 </Button>
