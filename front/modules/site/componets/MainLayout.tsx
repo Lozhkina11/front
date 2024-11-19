@@ -20,9 +20,9 @@ const MainLayout: React.FC<Props> = ({ children }) => {
           mode="horizontal"
           className="bg-blue-500"
           items={[
-            { key: "1", label: <Link href="/">Главная</Link> },
-            { key: "2", label: <Link href="/about">О нас</Link> },
-            { key: "3", label: <Link href="/contact">Контакты</Link> },
+            { key: "1", label: <Link href="/">Поиск</Link> },
+            { key: "2", label: <Link href="/about">Профиль</Link> },
+            { key: "3", label: <Link href="/contact">Выход</Link> },
           ]}
         />
       </Header>
@@ -41,9 +41,9 @@ const MainLayout: React.FC<Props> = ({ children }) => {
             mode="inline"
             className="bg-gray-800 h-full"
             items={[
-              { key: "1", label: <Link href="/dashboard">Панель</Link> },
-              { key: "2", label: <Link href="/settings">Настройки</Link> },
-              { key: "3", label: <Link href="/profile">Профиль</Link> },
+              { key: "1", label: <Link href="/dashboard">Фото</Link> },
+              { key: "2", label: <Link href="/settings">Чат</Link> },
+              { key: "3", label: <Link href="/profile">Настройки</Link> },
             ]}
           />
         </Sider>
