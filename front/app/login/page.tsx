@@ -9,7 +9,7 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-sky-200 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-400 via-sky-300 to-indigo-500 p-6">
       <div className="bg-yellow-300 shadow-lg rounded-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold text-center mb-6">
           <Tabs defaultActiveKey="1">
