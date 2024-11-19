@@ -1,32 +1,40 @@
 "use client";
-import React, { useState } from "react";
 import { Tabs, Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
 
 const { TabPane } = Tabs;
 
-const LoginPage: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+type Props = object;
+
+const LoginPage: React.FC<Props> = () => {
+  const router = useRouter();
+  // const [loading, setLoading] = useState(false);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-400 via-sky-300 to-indigo-500 p-6">
       <div className="bg-sky-100 shadow-lg rounded-lg p-8 max-w-md w-full">
-      {/* <div className="bg-[#7DD3FC] shadow-lg rounded-lg p-8 max-w-md w-full"> */}
         <h2 className="text-2xl font-bold text-center mb-6">
-          <Tabs defaultActiveKey="1"  tabBarStyle={{
-    color: "black"}}>
+          <Tabs
+            defaultActiveKey="1"
+            tabBarStyle={{
+              color: "black",
+            }}
+          >
             {/* Вкладка "Вход" */}
             <TabPane tab="Вход" key="1">
               <Form
                 name="login"
-                onFinish={() => {}}
+                onFinish={() => {
+                  router.push("/catalog");
+                }}
                 layout="vertical"
                 requiredMark={false}
               >
                 <Form.Item
                   name="username"
                   rules={[
-                    { required: true, message: "Введите имя пользователя!" },
+                    { required: false, message: "Введите имя пользователя!" },
                   ]}
                 >
                   <Input
@@ -37,7 +45,7 @@ const LoginPage: React.FC = () => {
 
                 <Form.Item
                   name="password"
-                  rules={[{ required: true, message: "Введите пароль!" }]}
+                  rules={[{ required: false, message: "Введите пароль!" }]}
                 >
                   <Input.Password
                     prefix={<LockOutlined />}
