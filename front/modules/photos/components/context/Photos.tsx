@@ -7,8 +7,9 @@ import { getPhotos, storePhotos } from "../../utils/storage";
 type PhotoContextType = {
   photos: Photo[];
   // addPhoto: (photo: Photo) => void;
-  addPhotoByUrl: (url: string) => void;
+  addPhotoByUrl: (url: string, description: string) => void;
   removePhoto: (id: number) => void;
+  addDescription: (id: number, description: string) => void;
 };
 
 const PhotoContext = createContext<PhotoContextType | undefined>(undefined);
@@ -20,7 +21,6 @@ type PhotoProviderProps = {
 export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
   const [photos, setPhotos] = useState<Photo[]>([]);
 
-  console.log("photos", photos);
 
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
 
@@ -28,13 +28,23 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
   //   setPhotos((prevPhotos) => [...prevPhotos, photo]);
   // };
 
-  const addPhotoByUrl = (url: string) => {
+  const addPhotoByUrl = (url: string, description: string) => {
     setPhotos((prevPhotos) => [
       ...prevPhotos,
-      { id: Date.now(), url, title: "", description: "" },
+      { id: Date.now(), url, title: "", description }, // Добавляем описание сюда
     ]);
+    //   ...prevPhotos,
+    //   { id: Date.now(), url, title: "", description: "" },
+    // ]);
   };
 
+  const addDescription = (id: number, description: string) => {
+    setPhotos((prevPhotos) =>
+      prevPhotos.map((photo) =>
+        photo.id === id ? { ...photo, description } : photo
+      )
+    );
+  };
   const removePhoto = (id: number) => {
     setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.id !== id));
   };
@@ -50,11 +60,12 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
   }, [photos, dataLoaded]);
 
   return (
-    <PhotoContext.Provider value={{ photos, addPhotoByUrl, removePhoto }}>
+    <PhotoContext.Provider value={{ photos, addPhotoByUrl, removePhoto, addDescription}}>
       {children}
     </PhotoContext.Provider>
   );
 };
+
 
 export const usePhotoContext = () => {
   const context = useContext(PhotoContext);
