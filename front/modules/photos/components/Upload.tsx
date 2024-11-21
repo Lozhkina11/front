@@ -1,7 +1,7 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { usePhotoContext } from "./context/Photos";
 import { useState } from "react";
-import { Typography } from "antd";
+import { Space, Typography, Input, Button } from "antd";
 
 const { Text } = Typography;
 const UploadPhoto = () => {
@@ -14,41 +14,18 @@ const UploadPhoto = () => {
   };
 
   return (
-    //     <div
-    //       style={{
-    //         padding: "22px", // Отступы вокруг карточек
-    //         display: "flex",
-    //         justifyContent: "center", // Центрирование карточек
-    //       }}
-    //     >
-    //       <Space.Compact
-    //         style={{
-    //           width: "100%",
-    //         }}
-    //       >
-    //         <Input
-    //           style={{ width: "100%" }}
-    //           placeholder="Доабавить url фото"
-    //           value={value}
-    //           onChange={(e) => setValue(e.target.value)}
-    //         />
-    //         <Button onClick={handleSubmit} type="primary">
-    //           Submit
-    //         </Button>
-    //       </Space.Compact>
-
-    //     </div>
     <div
       style={{
         padding: "22px",
         display: "flex",
-        flexDirection: "column",
+        // flexDirection: "column",
         alignItems: "center", // Центрирование кнопки
+        justifyContent: "flex-start",
       }}
     >
       {/* Кнопка с концентрическими кругами */}
       <div
-        onClick={handleSubmit}
+        onClick={() => {}}
         style={{
           display: "inline-flex",
           flexDirection: "column",
@@ -61,7 +38,7 @@ const UploadPhoto = () => {
           style={{
             width: "80px",
             height: "80px",
-            border: "2px solid gray",
+            border: "1px solid lightgray",
             borderRadius: "50%",
             display: "flex",
             justifyContent: "center",
@@ -71,8 +48,8 @@ const UploadPhoto = () => {
           {/* Внутренний круг */}
           <div
             style={{
-              width: "50px",
-              height: "50px",
+              width: "70px",
+              height: "70px",
               backgroundColor: "#F5F5F5",
               borderRadius: "50%",
               display: "flex",
@@ -81,12 +58,27 @@ const UploadPhoto = () => {
               position: "relative",
             }}
           >
-            <PlusOutlined style={{ fontSize: "24px", color: "#C7C7C7" }} />
+            <PlusOutlined style={{ fontSize: "34px", color: "#C7C7C7" }} />
           </div>
         </div>
-        {/* Текст под кнопкой */}
         <Text strong>Добавить</Text>
       </div>
+
+      <Space.Compact
+        style={{
+          width: "100%",
+        }}
+      >
+        <Input
+          style={{ width: "100%" }}
+          placeholder="Доабавить url фото"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <Button onClick={handleSubmit} type="primary">
+          Submit
+        </Button>
+      </Space.Compact>
     </div>
   );
 };
