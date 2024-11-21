@@ -40,7 +40,7 @@ const MainLayout: React.FC<Props> = ({ children }) => {
         </Header>
 
         {/* Основной Layout */}
-        <Layout>
+        <Layout style={{ backgroundColor: "#fff" }}>
           {/* Сайдбар */}
           <Sider
             width={200}
@@ -62,9 +62,8 @@ const MainLayout: React.FC<Props> = ({ children }) => {
 
           {/* Контент */}
           <Content
-            className="bg-gray-100"
             style={{
-              // padding: "12px 12px", // Добавляем отступы слева и справа
+              // backgroundColor: "#fff",
               maxWidth: "1200px",
               margin: "12px auto",
             }}
