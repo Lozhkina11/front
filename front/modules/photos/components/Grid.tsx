@@ -1,27 +1,53 @@
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { usePhotoContext } from "./context/Photos";
-import { Button } from "antd";
+import { Card, Col, Row } from "antd";
+import Meta from "antd/es/card/Meta";
 
 const PhotoGrid = () => {
   const { photos, removePhoto } = usePhotoContext();
 
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {photos.map((photo) => (
-        <div
-          key={photo.id}
-          className="bg-gray-200 aspect-square flex flex-col justify-center items-center relative"
-        >
-          <img src={photo.url} alt={photo.title} className="max-h-full max-w-full object-contain" />
-          <Button
-            type="text"
-            danger
-            className="absolute top-2 right-2"
-            onClick={() => removePhoto(photo.id)}
-          >
-            Удалить
-          </Button>
-        </div>
-      ))}
+    <div
+      style={{
+        padding: "16px", // Отступы вокруг карточек
+        display: "flex",
+        justifyContent: "center", // Центрирование карточек
+      }}
+    >
+      <Row
+        gutter={[16, 16]} // Пространство между карточками
+        style={{
+          width: "100%",
+          maxWidth: "1200px", // Максимальная ширина сетки
+        }}
+        justify="start" // Выравнивание карточек в начале строки
+      >
+        {photos.map((photo) => (
+          <Col key={photo.id} xs={24} sm={12} md={8} lg={8}>
+            <Card
+              style={{
+                width: "100%", // Карточки занимают всю ширину колонки
+              }}
+              cover={
+                <img
+                  src={photo.url}
+                  alt={photo.title}
+                  className="max-h-full max-w-full object-contain"
+                />
+              }
+              actions={[
+                <EditOutlined key="edit" />,
+                <DeleteOutlined
+                  key="delete"
+                  onClick={() => removePhoto(photo.id)}
+                />,
+              ]}
+            >
+              <Meta description="This is the description" />
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </div>
   );
 };

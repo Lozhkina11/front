@@ -1,4 +1,4 @@
-import { Button, Input } from "antd";
+import { Button, Input, Space } from "antd";
 import { usePhotoContext } from "./context/Photos";
 import { useState } from "react";
 
@@ -13,17 +13,29 @@ const UploadPhoto = () => {
   };
 
   return (
-    <Input.Group compact>
-      <Input
-        style={{ width: "calc(100% - 100px)" }}
-        placeholder="Доабавить url фото"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      <Button onClick={handleSubmit} type="primary">
-        Добавить
-      </Button>
-    </Input.Group>
+    <div
+      style={{
+        padding: "22px", // Отступы вокруг карточек
+        display: "flex",
+        justifyContent: "center", // Центрирование карточек
+      }}
+    >
+      <Space.Compact
+        style={{
+          width: "100%",
+        }}
+      >
+        <Input
+          style={{ width: "100%" }}
+          placeholder="Доабавить url фото"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <Button onClick={handleSubmit} type="primary">
+          Submit
+        </Button>
+      </Space.Compact>
+    </div>
   );
 };
 

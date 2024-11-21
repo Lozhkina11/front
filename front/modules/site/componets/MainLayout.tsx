@@ -61,10 +61,15 @@ const MainLayout: React.FC<Props> = ({ children }) => {
           </Sider>
 
           {/* Контент */}
-          <Content className="bg-gray-100 p-6">
-            <div className="bg-white flex flex-col gap-4 rounded-lg shadow-lg p-6">
-              {children}
-            </div>
+          <Content
+            className="bg-gray-100"
+            style={{
+              // padding: "12px 12px", // Добавляем отступы слева и справа
+              maxWidth: "1200px",
+              margin: "12px auto",
+            }}
+          >
+            {children}
           </Content>
         </Layout>
       </Layout>
