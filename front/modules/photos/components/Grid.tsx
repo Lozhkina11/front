@@ -4,20 +4,7 @@ import { Card, Col, Row } from "antd";
 import Meta from "antd/es/card/Meta";
 
 const PhotoGrid = () => {
-  const { photos, removePhoto, addDescription } = usePhotoContext();
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [newDescription, setNewDescription] = useState<string>("");
-
-  const handleEdit = (id: number, currentDescription: string) => {
-    setEditingId(id);
-    setNewDescription(currentDescription || ""); // Начальное значение
-  };
-
-  const handleSaveDescription = (id: number) => {
-    addDescription(id, newDescription);
-    setEditingId(null);
-    setNewDescription("");
-  };
+  const { photos, removePhoto } = usePhotoContext();
 
   return (
     <div

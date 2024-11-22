@@ -12,11 +12,8 @@ const UploadPhoto = () => {
   const [value, setValue] = useState<string>("");
 
   const handleSubmit = () => {
-    if (url) {
-      addPhotoByUrl(url, description);
-      setUrl("");
-      setDescription("");
-    }
+    addPhotoByUrl(value);
+    setValue("");
   };
 
   return (
@@ -90,6 +87,3 @@ const UploadPhoto = () => {
 };
 
 export default UploadPhoto;
-
-
-
