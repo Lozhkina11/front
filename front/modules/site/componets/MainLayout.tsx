@@ -40,7 +40,7 @@ const MainLayout: React.FC<Props> = ({ children }) => {
         </Header>
 
         {/* Основной Layout */}
-        <Layout>
+        <Layout style={{ backgroundColor: "#fff" }}>
           {/* Сайдбар */}
           <Sider
             width={200}
@@ -61,10 +61,14 @@ const MainLayout: React.FC<Props> = ({ children }) => {
           </Sider>
 
           {/* Контент */}
-          <Content className="bg-gray-100 p-6">
-            <div className="bg-white flex flex-col gap-4 rounded-lg shadow-lg p-6">
-              {children}
-            </div>
+          <Content
+            style={{
+              // backgroundColor: "#fff",
+              maxWidth: "1200px",
+              margin: "12px auto",
+            }}
+          >
+            {children}
           </Content>
         </Layout>
       </Layout>
