@@ -20,7 +20,7 @@ const PhotoGrid = () => {
           width: "100%",
           maxWidth: "1200px", // Максимальная ширина сетки
         }}
-        justify="start" // Выравнивание карточек в начале строки
+        justify="start"
       >
         {photos.map((photo) => (
           <Col key={photo.id} xs={24} sm={12} md={8} lg={8}>

@@ -21,7 +21,6 @@ const UploadPhoto = () => {
       style={{
         padding: "22px",
         display: "flex",
-        // flexDirection: "column",
         alignItems: "center", // Центрирование кнопки
         justifyContent: "flex-start",
       }}
