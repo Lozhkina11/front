@@ -38,6 +38,9 @@ const AddEditPhoto: React.FC<AddEditPhotoProps & { params?: ModalParams }> = ({
     if (params.addPhotoByUrl) {
       params.addPhotoByUrl(url); // вызываем метод контекста
     }
+    // Очищаем состояние формы
+    setUrl("");
+    setDescription("");
     onClose();
   };
 
