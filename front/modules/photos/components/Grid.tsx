@@ -1,10 +1,13 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { usePhotoContext } from "./context/Photos";
+import { useUIContext } from "@/modules/ui/components/context/Ui"; // Импорт контекста для модальных окон
 import { Card, Col, Row } from "antd";
 import Meta from "antd/es/card/Meta";
+import { ModalType } from "@/modules/ui/types";
 
 const PhotoGrid = () => {
   const { photos, removePhoto } = usePhotoContext();
+  const { showModal } = useUIContext(); // Получаем функцию showModal из UIContext
 
   return (
     <div
@@ -26,7 +29,7 @@ const PhotoGrid = () => {
           <Col key={photo.id} xs={24} sm={12} md={8} lg={8}>
             <Card
               style={{
-                width: "100%", // Карточки занимают всю ширину колонки
+                width: "100%"
               }}
               cover={
                 <img
@@ -36,14 +39,22 @@ const PhotoGrid = () => {
                 />
               }
               actions={[
-                <EditOutlined key="edit" />,
+                <EditOutlined
+                  key="edit"
+                  onClick={() =>
+                    showModal({
+                      type: ModalType.editPhoto,
+                      params: { id: photo.id, url: photo.url },
+                    })
+                  }
+                />,
                 <DeleteOutlined
                   key="delete"
                   onClick={() => removePhoto(photo.id)}
                 />,
               ]}
             >
-              <Meta description="This is the description" />
+              <Meta description={photo.description || "Нет описания"} />
             </Card>
           </Col>
         ))}

@@ -9,6 +9,7 @@ type PhotoContextType = {
   // addPhoto: (photo: Photo) => void;
   addPhotoByUrl: (url: string) => void;
   removePhoto: (id: number) => void;
+  updatePhoto: (id: number, url: string, description: string) => void;
 };
 
 const PhotoContext = createContext<PhotoContextType | undefined>(undefined);
@@ -37,18 +38,24 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
     setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.id !== id));
   };
 
+  const updatePhoto = (id: number, url: string, description: string) => {
+    setPhotos(photos.map(photo => (photo.id === id ? { ...photo, url, description } : photo)));
+  };
+
   useEffect(() => {
     setPhotos(getPhotos());
     setDataLoaded(true);
   }, []);
 
   useEffect(() => {
+    
+    
     if (!dataLoaded) return;
     storePhotos(photos);
   }, [photos, dataLoaded]);
 
   return (
-    <PhotoContext.Provider value={{ photos, addPhotoByUrl, removePhoto }}>
+    <PhotoContext.Provider value={{ photos, addPhotoByUrl, removePhoto, updatePhoto}}>
       {children}
     </PhotoContext.Provider>
   );
