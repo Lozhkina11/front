@@ -39,7 +39,8 @@ const AddEditPhoto: React.FC<AddEditPhotoProps> = ({
         name="photo"
         rules={[{ required: false, message: "Выберите файл!" }]}
       >
-        <Input type="file" />
+        {/* <Input type="file" /> */}
+        <Input style={{ width: "100%" }} placeholder="Доабавить url фото" />
       </Form.Item>
       <Form.Item
         label="Описание"
