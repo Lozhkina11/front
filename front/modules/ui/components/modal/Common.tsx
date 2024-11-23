@@ -62,6 +62,7 @@ const settings: Record<string, ModalInfo> = {
     component: AddEditPhoto,
     title: "Добавить фото",
   },
+
   defaultModal: {
     component: () => <div>Компонент отсутсвует</div>,
     title: "Компонент отсутсвует",

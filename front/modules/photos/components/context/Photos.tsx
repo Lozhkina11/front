@@ -20,8 +20,6 @@ type PhotoProviderProps = {
 export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
   const [photos, setPhotos] = useState<Photo[]>([]);
 
-  console.log("photos", photos);
-
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
 
   // const addPhoto = (photo: Photo) => {
