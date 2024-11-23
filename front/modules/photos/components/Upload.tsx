@@ -27,7 +27,9 @@ const UploadPhoto = () => {
     >
       {/* Кнопка с концентрическими кругами */}
       <div
-        onClick={() => showModal({ type: ModalType.addEditPhoto, params: {} })}
+        onClick={() =>
+          showModal({ type: ModalType.addEditPhoto, params: { addPhotoByUrl } })
+        }
         style={{
           display: "inline-flex",
           flexDirection: "column",

@@ -1,5 +1,6 @@
 export type ModalParams = {
   content?: React.ReactNode;
+  addPhotoByUrl?: (url: string) => void; // Добавляем функцию в параметры
 };
 
 export enum ModalType {
@@ -10,5 +11,3 @@ export type ModalSettings = {
   type: ModalType;
   params: ModalParams;
 };
-
-

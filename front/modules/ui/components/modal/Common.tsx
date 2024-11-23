@@ -1,5 +1,5 @@
 import { Button, Form, Input, Modal } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { ModalParams, ModalType } from "../../types";
 
 interface CommonModalProps {
@@ -16,6 +16,7 @@ type AddEditPhotoProps = {
 
 interface ModalComponentProps {
   onClose: () => void;
+  params?: ModalParams; // Добавляем params
 }
 
 type ModalInfo = {
@@ -23,35 +24,37 @@ type ModalInfo = {
   title: string;
 };
 
-const AddEditPhoto: React.FC<AddEditPhotoProps> = ({
+const AddEditPhoto: React.FC<AddEditPhotoProps & { params?: ModalParams }> = ({
   id,
   onClose = () => {},
+  params = {},
 }) => {
-  const onSubmit = () => {
+  const [url, setUrl] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+
+  const handleSubmit = () => {
     if (id) alert("редактирование");
     else alert("добавление");
+    if (params.addPhotoByUrl) {
+      params.addPhotoByUrl(url); // вызываем метод контекста
+    }
     onClose();
   };
+
   return (
-    <Form name="add-photo" layout="vertical" onFinish={onSubmit}>
-      <Form.Item
-        label="Фото"
-        name="photo"
-        rules={[{ required: false, message: "Выберите файл!" }]}
-      >
-        {/* <Input type="file" /> */}
-        <Input style={{ width: "100%" }} placeholder="Доабавить url фото" />
+    <Form layout="vertical" onFinish={handleSubmit}>
+      <Form.Item label="URL" required>
+        <Input value={url} onChange={(e) => setUrl(e.target.value)} />
       </Form.Item>
-      <Form.Item
-        label="Описание"
-        name="description"
-        rules={[{ required: false, message: "Введите описание!" }]}
-      >
-        <Input.TextArea />
+      <Form.Item label="Описание">
+        <Input.TextArea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          {id ? "Сохранить" : "Добавить"}
+          Добавить
         </Button>
       </Form.Item>
     </Form>
@@ -69,11 +72,16 @@ const settings: Record<string, ModalInfo> = {
   },
 };
 
-const CommonModal: React.FC<CommonModalProps> = ({ open, type, onCancel }) => {
+const CommonModal: React.FC<CommonModalProps> = ({
+  open,
+  type,
+  onCancel,
+  params,
+}) => {
   const { component: Component, title } = settings[type || "defaultModal"];
   return (
     <Modal title={title} open={open} footer={null} onCancel={onCancel}>
-      <Component onClose={onCancel} />
+      <Component params={params} onClose={onCancel} />
     </Modal>
   );
 };
