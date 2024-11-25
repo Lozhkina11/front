@@ -1,13 +1,13 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { Photo } from "../../types";
+import { NewPhoto, Photo } from "../../types";
 import { getPhotos, storePhotos } from "../../utils/storage";
 
 type PhotoContextType = {
   photos: Photo[];
   // addPhoto: (photo: Photo) => void;
-  addPhotoByUrl: (url: string) => void;
+  addPhoto: (photo: NewPhoto) => void;
   removePhoto: (id: number) => void;
   updatePhoto: (id: number, url: string, description: string) => void;
 };
@@ -27,10 +27,10 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
   //   setPhotos((prevPhotos) => [...prevPhotos, photo]);
   // };
 
-  const addPhotoByUrl = (url: string) => {
+  const addPhoto = ({ url, title, description }: NewPhoto) => {
     setPhotos((prevPhotos) => [
       ...prevPhotos,
-      { id: Date.now(), url, title: "", description: "" },
+      { id: Date.now(), url, title, description },
     ]);
   };
 
@@ -39,7 +39,11 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
   };
 
   const updatePhoto = (id: number, url: string, description: string) => {
-    setPhotos(photos.map(photo => (photo.id === id ? { ...photo, url, description } : photo)));
+    setPhotos(
+      photos.map((photo) =>
+        photo.id === id ? { ...photo, url, description } : photo
+      )
+    );
   };
 
   useEffect(() => {
@@ -48,14 +52,14 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    
-    
     if (!dataLoaded) return;
     storePhotos(photos);
   }, [photos, dataLoaded]);
 
   return (
-    <PhotoContext.Provider value={{ photos, addPhotoByUrl, removePhoto, updatePhoto}}>
+    <PhotoContext.Provider
+      value={{ photos, addPhoto, removePhoto, updatePhoto }}
+    >
       {children}
     </PhotoContext.Provider>
   );

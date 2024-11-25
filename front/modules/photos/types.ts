@@ -4,3 +4,5 @@ export type Photo = {
   title: string;
   description: string;
 };
+
+export type NewPhoto = Omit<Photo, "id">;

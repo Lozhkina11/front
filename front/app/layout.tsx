@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.scss";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { UIProvider } from "@/modules/ui/components/context/Ui";
+import { PhotoProvider } from "@/modules/photos/components/context/Photos";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,7 +32,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AntdRegistry>
-          <UIProvider>{children}</UIProvider>
+          <PhotoProvider>
+            <UIProvider>{children}</UIProvider>
+          </PhotoProvider>
         </AntdRegistry>
       </body>
     </html>

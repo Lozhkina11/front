@@ -2,6 +2,7 @@
 import { Button, Form, Input, Modal } from "antd";
 import React, { useState } from "react";
 import { ModalParams, ModalType } from "../../types";
+import { usePhotoContext } from "@/modules/photos/components/context/Photos";
 
 interface CommonModalProps {
   open: boolean;
@@ -25,78 +26,48 @@ type ModalInfo = {
   title: string;
 };
 
-const addPhoto: React.FC<addPhotoProps & { params?: ModalParams }> = ({
+const AddPhoto: React.FC<addPhotoProps & { params?: ModalParams }> = ({
   id,
   onClose = () => {},
-  params = {},
+  // params = {},
 }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { addPhoto } = usePhotoContext();
   const [url, setUrl] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const onSubmit = () => {
     if (id) alert("редактирование");
     else alert("добавление");
-    if (params.addPhotoByUrl) {
-      params.addPhotoByUrl(url);
-    }
-
+    addPhoto({ url, title, description });
     onClose();
     setUrl("");
     setDescription("");
   };
   return (
-    // <Form layout="vertical" onFinish={onSubmit}>
-    //   <Form.Item
-    //     label="Фото"
-    //     name="photo"
-    //     rules={[{ required: false, message: "Выберите файл!" }]}
-    //   >
-    //     {/* <Input type="file" /> */}
-    //     <Input
-    //       allowClear
-    //       value={url}
-    //       onChange={(e) => setUrl(e.target.value)}
-    //     />
-    //   </Form.Item>
-    //   <Form.Item
-    //     label="Описание"
-    //     name="description"
-    //     rules={[{ required: false, message: "Введите описание!" }]}
-    //   >
-    //     <Input.TextArea
-    //       value={description}
-    //       onChange={(e) => setDescription(e.target.value)}
-    //     />
-    //   </Form.Item>
-    //   <Form.Item>
-    //     <Button type="primary" htmlType="submit">
-    //       {/* {id ? "Сохранить" : "Добавить"} */} Добавить
-    //     </Button>
-    //   </Form.Item>
-    // </Form>
-
-
-<Form layout="vertical" onFinish={onSubmit}> 
-<Form.Item label="URL" required> 
-  <Input value={url} onChange={(e) => setUrl(e.target.value)} /> 
-</Form.Item> 
-<Form.Item label="Описание"> 
-  <Input.TextArea 
-    value={description} 
-    onChange={(e) => setDescription(e.target.value)} 
-  /> 
-</Form.Item> 
-<Form.Item> 
-  <Button type="primary" htmlType="submit"> 
-    Добавить 
-  </Button> 
-</Form.Item> 
-</Form>
-
+    <Form layout="vertical" onFinish={onSubmit}>
+      <Form.Item label="title">
+        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+      </Form.Item>
+      <Form.Item label="URL" required>
+        <Input value={url} onChange={(e) => setUrl(e.target.value)} />
+      </Form.Item>
+      <Form.Item label="Описание">
+        <Input.TextArea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Добавить
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 
-const editPhoto: React.FC<addPhotoProps> = ({ id, onClose = () => {} }) => {
+const EditPhoto: React.FC<addPhotoProps> = ({ id, onClose = () => {} }) => {
   const onSubmit = () => {
     if (id) alert(`Фото с ID ${id} обновлено`);
     onClose();
@@ -129,11 +100,11 @@ const editPhoto: React.FC<addPhotoProps> = ({ id, onClose = () => {} }) => {
 
 const settings: Record<string, ModalInfo> = {
   addPhoto: {
-    component: addPhoto,
+    component: AddPhoto,
     title: "Добавить фото",
   },
   editPhoto: {
-    component: editPhoto,
+    component: EditPhoto,
     title: "Редактировать фото",
   },
 

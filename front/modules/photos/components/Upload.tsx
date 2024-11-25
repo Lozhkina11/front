@@ -1,15 +1,14 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { usePhotoContext } from "./context/Photos";
 // import { useState } from "react";
-import {  Typography } from "antd";
+import { Typography } from "antd";
 import { useUIContext } from "@/modules/ui/components/context/Ui";
 import { ModalType } from "@/modules/ui/types";
 
 const { Text } = Typography;
 const UploadPhoto = () => {
-  const { addPhotoByUrl } = usePhotoContext();
+  // const { addPhoto } = usePhotoContext();
   const { showModal } = useUIContext();
- 
 
   return (
     <div
@@ -22,7 +21,7 @@ const UploadPhoto = () => {
     >
       {/* Кнопка с концентрическими кругами */}
       <div
-        onClick={() => showModal({ type: ModalType.addPhoto, params: {addPhotoByUrl} })}
+        onClick={() => showModal({ type: ModalType.addPhoto, params: {} })}
         style={{
           display: "inline-flex",
           flexDirection: "column",
