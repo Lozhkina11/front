@@ -13,7 +13,6 @@ type PhotoContextType = {
 
 const PhotoContext = createContext<PhotoContextType | undefined>(undefined);
 
-
 type PhotoProviderProps = {
   children: React.ReactNode;
 };
