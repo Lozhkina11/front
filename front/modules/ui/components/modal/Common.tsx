@@ -64,15 +64,16 @@ const AddPhoto: React.FC<addPhotoProps & { params?: ModalParams }> = ({
     addPhoto({ url, title, description });
     onClose();
     setUrl("");
+    setTitle("");
     setDescription("");
   };
   return (
     <Form layout="vertical" onFinish={onSubmit}>
-      <Form.Item label="title">
+      <Form.Item label="Название">
         <Input value={title} onChange={(e) => setTitle(e.target.value)} />
       </Form.Item>
       <Upload {...props}>
-        <Button icon={<UploadOutlined />}>Click to Upload</Button>
+        <Button icon={<UploadOutlined />}>Загрузить</Button>
       </Upload>
       <Form.Item label="URL" required>
         <Input value={url} onChange={(e) => setUrl(e.target.value)} />
