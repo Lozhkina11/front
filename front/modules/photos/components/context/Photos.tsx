@@ -2,7 +2,8 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { NewPhoto, Photo } from "../../types";
-import { getPhotos, storePhotos } from "../../utils/storage";
+import { storePhotos } from "../../utils/storage";
+// import { getPhotos, storePhotos } from "../../utils/storage";
 
 type PhotoContextType = {
   photos: Photo[];
@@ -27,28 +28,94 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
   //   setPhotos((prevPhotos) => [...prevPhotos, photo]);
   // };
 
-  const addPhoto = ({ url, title, description }: NewPhoto) => {
-    setPhotos((prevPhotos) => [
-      ...prevPhotos,
-      { id: Date.now(), url, title, description },
-    ]);
+  const fetchPhotos = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/photos`);
+      if (!response.ok) throw new Error("Ошибка загрузки фотографий");
+      const data: Photo[] = await response.json();
+      setPhotos(data);
+      setDataLoaded(true);
+    } catch (error) {
+      console.error("Ошибка при загрузке фотографий:", error);
+    }
   };
 
-  const removePhoto = (id: number) => {
-    setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.id !== id));
+  // const addPhoto = ({ url, title, description }: NewPhoto) => {
+  //   setPhotos((prevPhotos) => [
+  //     ...prevPhotos,
+  //     { id: Date.now(), url, title, description },
+  //   ]);
+  // };
+
+  // Добавление новой фотографии на бэкенд
+  const addPhoto = async ({ url, title, description }: NewPhoto) => {
+    try {
+      const response = await fetch(`http://localhost:3001/photos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url, title, description }),
+      });
+      if (!response.ok) throw new Error("Ошибка при добавлении фотографии");
+      const newPhoto: Photo = await response.json();
+      setPhotos((prevPhotos) => [...prevPhotos, newPhoto]);
+    } catch (error) {
+      console.error("Ошибка при добавлении фотографии:", error);
+    }
   };
 
-  const updatePhoto = (id: number, url: string, description: string) => {
-    setPhotos(
-      photos.map((photo) =>
-        photo.id === id ? { ...photo, url, description } : photo
-      )
-    );
+  // const removePhoto = (id: number) => {
+  //   setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.id !== id));
+  // };
+
+  // Удаление фотографии
+  const removePhoto = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:3001/photos/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Ошибка при удалении фотографии");
+      setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.id !== id));
+    } catch (error) {
+      console.error("Ошибка при удалении фотографии:", error);
+    }
+  };
+
+  // const updatePhoto = (id: number, url: string, description: string) => {
+  //   setPhotos(
+  //     photos.map((photo) =>
+  //       photo.id === id ? { ...photo, url, description } : photo
+  //     )
+  //   );
+  // };
+
+  // Обновление фотографии
+  const updatePhoto = async (id: number, url: string, description: string) => {
+    try {
+      const response = await fetch(`http://localhost:3001/photos/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url, description }),
+      });
+      if (!response.ok) throw new Error("Ошибка при обновлении фотографии");
+      const updatedPhoto: Photo = await response.json();
+      setPhotos((prevPhotos) =>
+        prevPhotos.map((photo) =>
+          photo.id === id ? { ...photo, ...updatedPhoto } : photo
+        )
+      );
+    } catch (error) {
+      console.error("Ошибка при обновлении фотографии:", error);
+    }
   };
 
   useEffect(() => {
-    setPhotos(getPhotos());
-    setDataLoaded(true);
+    // setPhotos(getPhotos());
+    // setDataLoaded(true);
+    fetchPhotos();
   }, []);
 
   useEffect(() => {

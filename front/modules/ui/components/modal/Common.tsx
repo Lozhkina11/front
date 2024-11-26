@@ -30,7 +30,8 @@ type ModalInfo = {
 };
 
 const AddPhoto: React.FC<addPhotoProps & { params?: ModalParams }> = ({
-  id,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  id = "",
   onClose = () => {},
   // params = {},
 }) => {
@@ -58,15 +59,45 @@ const AddPhoto: React.FC<addPhotoProps & { params?: ModalParams }> = ({
       }
     },
   };
-  const onSubmit = () => {
-    if (id) alert("редактирование");
-    else alert("добавление");
-    addPhoto({ url, title, description });
+  // const onSubmit = () => {
+  //   if (id) alert("редактирование");
+  //   else alert("добавление");
+  //   addPhoto({ url, title, description });
+  //   onClose();
+  //   setUrl("");
+  //   setTitle("");
+  //   setDescription("");
+  // };
+  const onSubmit = async () => {
+    const photoData = { url, title, description };
+
+    try {
+      const response = await fetch("http://localhost:3001/photos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(photoData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Ошибка при сохранении фотографии");
+      }
+
+      const savedPhoto = await response.json();
+      message.success("Фотография успешно сохранена");
+      addPhoto(savedPhoto); // Добавляем фото в контекст
+    } catch (error) {
+      console.error(error);
+      message.error("Не удалось сохранить фотографию");
+    }
+
     onClose();
     setUrl("");
     setTitle("");
     setDescription("");
   };
+
   return (
     <Form layout="vertical" onFinish={onSubmit}>
       <Form.Item label="Название">
@@ -75,7 +106,8 @@ const AddPhoto: React.FC<addPhotoProps & { params?: ModalParams }> = ({
       <Upload {...props}>
         <Button icon={<UploadOutlined />}>Загрузить</Button>
       </Upload>
-      <Form.Item label="URL" required>
+      <Form.Item label="URL">
+        {/*required */}
         <Input value={url} onChange={(e) => setUrl(e.target.value)} />
       </Form.Item>
 
