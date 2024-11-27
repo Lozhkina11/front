@@ -48,14 +48,14 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
   // };
 
   // Добавление новой фотографии на бэкенд
-  const addPhoto = async ({ url, title, description }: NewPhoto) => {
+  const addPhoto = async ({ title, description, file }: NewPhoto) => {
     try {
       const response = await fetch(`http://localhost:3001/photos`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ url, title, description }),
+        body: JSON.stringify({ title, description, file }),
       });
       if (!response.ok) throw new Error("Ошибка при добавлении фотографии");
       const newPhoto: Photo = await response.json();

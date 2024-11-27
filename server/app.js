@@ -41,14 +41,15 @@ app.post("/upload", upload.single("file"), (req, res) => {
 });
 
 // Добавить новую фотографию
-app.post("/photos", upload.single("file"), async (req, res) => {
-  const { title, description } = req.body;
+app.post("/photos", async (req, res) => {
+  const { title, description, file } = req.body;
 
   try {
     const newPhoto = await Photo.create({
       title,
       description,
-      file: req.file.filename, // Сохраняем имя файла
+      // file: req.file.filename, // Сохраняем имя файла
+      file, 
     });
 
     res.status(201).json(newPhoto);
@@ -65,7 +66,7 @@ app.get("/photos", async (req, res) => {
     res.json(
       photos.map((photo) => ({
         ...photo.toJSON(),
-        file: `${API_URL}/photos/${photo.file}`, // Добавляем полный URL для файлов
+        // file: `${API_URL}/photos/${photo.file}`, // Добавляем полный URL для файлов
       }))
     );
   } catch (error) {

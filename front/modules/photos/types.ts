@@ -1,6 +1,7 @@
 export type Photo = {
   id: number;
-  url: string;
+  url?: string;
+  file?: string;
   title: string;
   description: string;
 };

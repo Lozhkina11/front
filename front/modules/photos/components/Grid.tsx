@@ -29,11 +29,11 @@ const PhotoGrid = () => {
           <Col key={photo.id} xs={24} sm={12} md={8} lg={8}>
             <Card
               style={{
-                width: "100%"
+                width: "100%",
               }}
               cover={
                 <img
-                  src={photo.url}
+                  src={photo.file}
                   alt={photo.title}
                   className="max-h-full max-w-full object-contain"
                 />
