@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Button, Form, Input, Modal } from "antd";
@@ -5,7 +6,7 @@ import React, { useState } from "react";
 import { ModalParams, ModalType } from "../../types";
 import { usePhotoContext } from "@/modules/photos/components/context/Photos";
 import { message } from "antd";
-import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 import { Image, Upload } from "antd";
 import type { GetProp, UploadFile, UploadProps } from "antd";
@@ -43,51 +44,17 @@ type ModalInfo = {
 };
 
 const AddPhoto: React.FC<addPhotoProps & { params?: ModalParams }> = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   id = "",
   onClose = () => {},
-  // params = {},
 }) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { addPhoto } = usePhotoContext();
-  // const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
-  // const [file, setFile] = useState<string>(""); // Добавляем состояние для файла фотографии
   const [description, setDescription] = useState<string>("");
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  // const props: UploadProps = {
-  //   name: "file",
-  //   // action: "http://localhost:3001/upload",
-  //   // headers: {
-  //   //   authorization: "authorization-text",
-  //   // },
-  //   onChange(info) {
-  //     console.log(info);
-
-  //     if (info.file.status !== "uploading") {
-  //       console.log(info.file, info.fileList);
-  //     }
-  //     if (info.file.status === "done") {
-  //       message.success(`${info.file.name} file uploaded successfully`);
-  //       // setUrl(info.file.response.url);
-  //     } else if (info.file.status === "error") {
-  //       message.error(`${info.file.name} file upload failed.`);
-  //     }
-  //   },
-  // };
-  // const onSubmit = () => {
-  //   if (id) alert("редактирование");
-  //   else alert("добавление");
-  //   addPhoto({ url, title, description });
-  //   onClose();
-  //   setUrl("");
-  //   setTitle("");
-  //   setDescription("");
-  // };
   const onSubmit = async () => {
     const file = await getBase64(fileList[0].originFileObj as FileType);
     const photoData = { file, title, description };
@@ -117,8 +84,6 @@ const AddPhoto: React.FC<addPhotoProps & { params?: ModalParams }> = ({
     setTitle("");
     setDescription("");
     setFileList([]);
-    // setFile("");
-    // setUrl("");
   };
 
   const handlePreview = async (file: UploadFile) => {
@@ -148,7 +113,6 @@ const AddPhoto: React.FC<addPhotoProps & { params?: ModalParams }> = ({
       </Form.Item>
 
       <Upload
-        // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
         customRequest={(options) => {
           const { file, onSuccess, onError } = options;
 
@@ -173,13 +137,6 @@ const AddPhoto: React.FC<addPhotoProps & { params?: ModalParams }> = ({
           src={previewImage}
         />
       )}
-      {/* <Upload {...props}>
-        <Button icon={<UploadOutlined />}>Загрузить</Button>
-      </Upload> */}
-      {/* <Form.Item label="URL">
-        <Input value={url} onChange={(e) => setUrl(e.target.value)} />
-      </Form.Item> */}
-
       <Form.Item label="Описание">
         <Input.TextArea
           value={description}
