@@ -1,14 +1,15 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { usePhotoContext } from "./context/Photos";
 import { useUIContext } from "@/modules/ui/components/context/Ui"; // Импорт контекста для модальных окон
-import { Card, Col, Row } from "antd";
+import { Card, Col, Popconfirm, Row } from "antd";
 import Meta from "antd/es/card/Meta";
 import { ModalType } from "@/modules/ui/types";
 
 const PhotoGrid = () => {
   const { photos, removePhoto } = usePhotoContext();
   const { showModal } = useUIContext(); // Получаем функцию showModal из UIContext
-
+  console.log(photos);
+  
   return (
     <div
       style={{
@@ -44,14 +45,20 @@ const PhotoGrid = () => {
                   onClick={() =>
                     showModal({
                       type: ModalType.editPhoto,
-                      params: { id: photo.id, url: photo.url },
+                      params: { photo },
                     })
                   }
                 />,
-                <DeleteOutlined
+                <Popconfirm
+                  title="Delete the task"
+                  description="Are you sure to delete this task?"
+                  okText="Yes"
+                  cancelText="No"
                   key="delete"
-                  onClick={() => removePhoto(photo.id)}
-                />,
+                  onConfirm={() => removePhoto(photo.id)}
+                >
+                  <DeleteOutlined />
+                </Popconfirm>,
               ]}
             >
               <Meta description={photo.description || "Нет описания"} />

@@ -27,10 +27,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// app.post("/upload", upload.single("file"), (req, res) => {
-//   // res.send(`File uploaded successfully!`);
-//   res.json({ url: `${API_URL}/photos/${req.file.originalname}` });
-// });
 // Загрузка файла
 app.post("/upload", upload.single("file"), (req, res) => {
   if (!req.file) {
@@ -48,8 +44,7 @@ app.post("/photos", async (req, res) => {
     const newPhoto = await Photo.create({
       title,
       description,
-      // file: req.file.filename, // Сохраняем имя файла
-      file, 
+      file,
     });
 
     res.status(201).json(newPhoto);
@@ -66,12 +61,48 @@ app.get("/photos", async (req, res) => {
     res.json(
       photos.map((photo) => ({
         ...photo.toJSON(),
-        // file: `${API_URL}/photos/${photo.file}`, // Добавляем полный URL для файлов
       }))
     );
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Ошибка при загрузке фотографий" });
+  }
+});
+
+// Обновить фотографию
+app.put("/photos/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, description } = req.body;
+
+  try {
+    const photo = await Photo.findByPk(id);
+    if (!photo) {
+      return res.status(404).json({ error: "Фотография не найдена" });
+    }
+
+    photo.title = title;
+    photo.description = description;
+
+    await photo.save();
+
+    res.json({ message: "Фотография успешно обновлена", item: photo });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Ошибка при обновлении фотографии" });
+  }
+});
+
+app.delete("/photos/:id", async (req, res) => {
+  try {
+    const photo = await Photo.findByPk(req.params.id);
+    if (!photo) {
+      return res.status(404).json({ error: "Фотография не найдена" });
+    }
+    await photo.destroy();
+    res.json({ message: "Фотография удалена" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Ошибка при удалении фотографии" });
   }
 });
 

@@ -2,12 +2,9 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { NewPhoto, Photo } from "../../types";
-import { storePhotos } from "../../utils/storage";
-// import { getPhotos, storePhotos } from "../../utils/storage";
 
 type PhotoContextType = {
   photos: Photo[];
-  // addPhoto: (photo: Photo) => void;
   addPhoto: (photo: NewPhoto) => void;
   removePhoto: (id: number) => void;
   updatePhoto: (id: number, url: string, description: string) => void;
@@ -21,12 +18,7 @@ type PhotoProviderProps = {
 
 export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
   const [photos, setPhotos] = useState<Photo[]>([]);
-
-  const [dataLoaded, setDataLoaded] = useState<boolean>(false);
-
-  // const addPhoto = (photo: Photo) => {
-  //   setPhotos((prevPhotos) => [...prevPhotos, photo]);
-  // };
+  
 
   const fetchPhotos = async () => {
     try {
@@ -34,18 +26,12 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
       if (!response.ok) throw new Error("Ошибка загрузки фотографий");
       const data: Photo[] = await response.json();
       setPhotos(data);
-      setDataLoaded(true);
+    
     } catch (error) {
       console.error("Ошибка при загрузке фотографий:", error);
     }
   };
 
-  // const addPhoto = ({ url, title, description }: NewPhoto) => {
-  //   setPhotos((prevPhotos) => [
-  //     ...prevPhotos,
-  //     { id: Date.now(), url, title, description },
-  //   ]);
-  // };
 
   // Добавление новой фотографии на бэкенд
   const addPhoto = async ({ title, description, file }: NewPhoto) => {
@@ -65,10 +51,6 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
     }
   };
 
-  // const removePhoto = (id: number) => {
-  //   setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.id !== id));
-  // };
-
   // Удаление фотографии
   const removePhoto = async (id: number) => {
     try {
@@ -82,46 +64,38 @@ export const PhotoProvider: React.FC<PhotoProviderProps> = ({ children }) => {
     }
   };
 
-  // const updatePhoto = (id: number, url: string, description: string) => {
-  //   setPhotos(
-  //     photos.map((photo) =>
-  //       photo.id === id ? { ...photo, url, description } : photo
-  //     )
-  //   );
-  // };
-
   // Обновление фотографии
-  const updatePhoto = async (id: number, url: string, description: string) => {
+  const updatePhoto = async (
+    id: number,
+    title: string,
+    description: string
+  ) => {
     try {
       const response = await fetch(`http://localhost:3001/photos/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ url, description }),
+        body: JSON.stringify({ title, description }),
       });
       if (!response.ok) throw new Error("Ошибка при обновлении фотографии");
-      const updatedPhoto: Photo = await response.json();
-      setPhotos((prevPhotos) =>
-        prevPhotos.map((photo) =>
+      const updatedPhotoRes: { item: Photo } = await response.json();
+      const updatedPhoto = updatedPhotoRes.item;
+      setPhotos((prevPhotos) => {
+        return prevPhotos.map((photo) =>
           photo.id === id ? { ...photo, ...updatedPhoto } : photo
-        )
-      );
+        );
+      });
+      console.log({ updatedPhoto, photos });
     } catch (error) {
       console.error("Ошибка при обновлении фотографии:", error);
     }
   };
 
   useEffect(() => {
-    // setPhotos(getPhotos());
-    // setDataLoaded(true);
     fetchPhotos();
   }, []);
 
-  useEffect(() => {
-    if (!dataLoaded) return;
-    storePhotos(photos);
-  }, [photos, dataLoaded]);
 
   return (
     <PhotoContext.Provider

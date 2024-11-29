@@ -1,12 +1,13 @@
+import { Photo } from "../photos/types";
+
 export enum ModalType {
   addPhoto = "addPhoto",
   editPhoto = "editPhoto",
 }
 
-
 export type ModalParams = {
   content?: React.ReactNode;
-  id?: number;
+  photo?: Photo;
   url?: string;
   addPhoto?: (url: string) => void;
 };
